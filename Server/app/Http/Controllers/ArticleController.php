@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 
+use App\Article;
+
 class ArticleController extends Controller
 {
     /**
@@ -13,7 +15,8 @@ class ArticleController extends Controller
      */
     public function index()
     {
-        //
+        $all_article = Article::all();
+        return response()->json($all_article);
     }
 
     /**
@@ -23,7 +26,7 @@ class ArticleController extends Controller
      */
     public function create()
     {
-        //
+       //
     }
 
     /**
@@ -34,7 +37,15 @@ class ArticleController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $article = new Article;
+
+        $article->title =  $request->title;
+        $article->short_intro = $request->short_intro;
+        $article->content = $request->content;
+        $article->category_id = $request->category_id;
+        $article->author_id =  $request->author_id;
+
+        $article->save();
     }
 
     /**
@@ -43,9 +54,10 @@ class ArticleController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show($slug)
     {
-        //
+        $article = Article::findBySlugOrFail($slug);
+        return response()->json($article);
     }
 
     /**
@@ -54,7 +66,7 @@ class ArticleController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit($slug)
     {
         //
     }
@@ -66,9 +78,18 @@ class ArticleController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, $slug)
     {
         //
+        $article =Article::findBySlugOrFail($slug);
+
+        $article->title =  $request->title;
+        $article->short_intro = $request->short_intro;
+        $article->content = $request->content;
+        $article->category_id = $request->category_id;
+        $article->author_id =  $request->author_id;
+
+        $article->save();
     }
 
     /**
@@ -77,8 +98,9 @@ class ArticleController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy($slug)
     {
-        //
+         $article =Article::findBySlugOrFail($slug);
+         $article->delete();
     }
 }

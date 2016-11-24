@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 
+use App\Author;
+
 class AuthorController extends Controller
 {
     /**
@@ -13,7 +15,8 @@ class AuthorController extends Controller
      */
     public function index()
     {
-        //
+        $all_author = Author::all();
+        return response()->json($all_author);
     }
 
     /**
@@ -34,7 +37,9 @@ class AuthorController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $author = new Author;
+        $author->name= $request->name;
+        $author->save();
     }
 
     /**
@@ -43,9 +48,10 @@ class AuthorController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show($slug)
     {
-        //
+        $author = Author::findBySlugOrFail($slug);
+        return response()->json($author);
     }
 
     /**
@@ -54,9 +60,9 @@ class AuthorController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit($slug)
     {
-        //
+
     }
 
     /**
@@ -66,9 +72,11 @@ class AuthorController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, $slug)
     {
-        //
+        $author = Author::findBySlugOrFail($slug);
+        $author->name = $request->name;
+        $author->save();
     }
 
     /**
@@ -77,8 +85,9 @@ class AuthorController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy($slug)
     {
-        //
+        $author = Author::findBySlugOrFail($slug);
+        $author->delete();
     }
 }

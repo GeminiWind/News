@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 
+use App\Category
+
 class CategoryController extends Controller
 {
     /**
@@ -13,7 +15,8 @@ class CategoryController extends Controller
      */
     public function index()
     {
-        //
+        $all_category = Category::all();
+        return response()->json($all_category)
     }
 
     /**
@@ -34,7 +37,11 @@ class CategoryController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $category = new Category;
+
+        $category->name = $request->name;
+
+        $category->save();
     }
 
     /**
@@ -43,9 +50,10 @@ class CategoryController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show($slug)
     {
-        //
+        $category = Category::findBySlugOrFail($slug);
+        return response()->json($category);
     }
 
     /**
@@ -66,9 +74,13 @@ class CategoryController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, $slug)
     {
-        //
+        $category = Category::findBySlugOrFail($slug);
+
+        $category->name = $request->name;
+
+        $category->save();
     }
 
     /**
@@ -77,8 +89,9 @@ class CategoryController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy($slug)
     {
-        //
+        $category = Category::findBySlugOrFail($slug);
+        $category->delete();
     }
 }
