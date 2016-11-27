@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 
-use App\Category
+use App\Category;
 
 class CategoryController extends Controller
 {
@@ -16,7 +16,7 @@ class CategoryController extends Controller
     public function index()
     {
         $all_category = Category::all();
-        return response()->json($all_category)
+        return response()->json($all_category);
     }
 
     /**
