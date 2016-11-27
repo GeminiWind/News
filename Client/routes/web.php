@@ -15,4 +15,6 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::get('/test', 'TestController@test');
+Route::post('/register', 'ReaderController@regiter')->name('reader.register');
+Route::post('/login', 'ReaderController@login')->name('reader.login');
+Route::get('/test','ReaderController@test');

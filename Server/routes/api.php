@@ -22,3 +22,17 @@ Route::resource('authors', 'AuthorController');
 Route::resource('categories', 'CategoryController');
 Route::resource('comments', 'CommentController');
 Route::resource('tag', 'TagController');
+
+Route::group(['middleware' => ['cors']], function () {
+
+    Route::post('register', 'APIAuthController@register');
+
+    Route::post('login', 'APIAuthController@login');
+
+    Route::group(['middleware' => 'jwt-auth'], function () {
+
+    	Route::post('get_user_details', 'APIAuthController@get_user_details');
+
+    });
+
+});
