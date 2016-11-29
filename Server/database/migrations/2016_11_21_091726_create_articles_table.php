@@ -16,10 +16,11 @@ class CreateArticlesTable extends Migration
         Schema::create('articles', function (Blueprint $table) {
             $table->increments('id');
             $table->string('title');
-            $table->string('short_intro');
+            $table->text('short_intro');
             $table->text('content');
             $table->string('slug')->nullable();
             $table->integer('category_id')->unsigned();
+            $table->string('url_image');
             $table->foreign('category_id')->references('id')->on('categories')->onDelete('cascade');
             $table->integer('author_id')->unsigned();
             $table->foreign('author_id')->references('id')->on('authors')->onDelete('cascade');

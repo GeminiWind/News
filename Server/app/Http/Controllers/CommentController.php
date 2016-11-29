@@ -36,11 +36,31 @@ class CommentController extends Controller
      */
     public function store(Request $request)
     {
-        $comment = new Comment;
-        $comment->content = $request->content;
-        $comment->article_id = $request->article_id;
-        $comment->user_id = $request->user_id;
-        $comment->save();
+        $messages = [
+               'content.required'=>'Enter the tittle for this post'
+               'article_id.required'=>'Enter the category for this title',
+               'article_id.exists'=>'Not existing category',
+               'user_id.required'=>'Enter the author for this article',
+               'user_id.exists'=>'Not exsiting user'
+        ];
+        $validator = Validator:: make($request->all(),[
+              'content'=>'required',
+              'article_id'=>'required|exists:articles,id',
+              'user_id'=>'required|exists:users,id'
+        ], $messages);
+        if ($validator->fails()) {
+            return response()->json([
+                'message'=>'Validation failed',
+                'errors'=> $validator->errors(),
+                ]);
+        } else {
+            $comment = new Comment;
+            $comment->content = $request->content;
+            $comment->article_id = $request->article_id;
+            $comment->user_id = $request->user_id;
+            $comment->save();
+            return response()->json(['message'=>'Comment successful']);
+        }
     }
 
     /**

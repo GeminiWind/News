@@ -17,4 +17,4 @@ Route::get('/', function () {
 
 Route::post('/register', 'ReaderController@regiter')->name('reader.register');
 Route::post('/login', 'ReaderController@login')->name('reader.login');
-Route::get('/test','ReaderController@test');
+Route::get('/test/{slugArticle}','ArticleController@getArticleDetail');

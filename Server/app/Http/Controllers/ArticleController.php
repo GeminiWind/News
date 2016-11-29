@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 
 use App\Article;
+use Validator;
 
 class ArticleController extends Controller
 {
@@ -37,15 +38,38 @@ class ArticleController extends Controller
      */
     public function store(Request $request)
     {
-        $article = new Article;
-
-        $article->title =  $request->title;
-        $article->short_intro = $request->short_intro;
-        $article->content = $request->content;
-        $article->category_id = $request->category_id;
-        $article->author_id =  $request->author_id;
-
-        $article->save();
+        $messages = [
+               'title.required'=>'Enter the tittle for this post',
+               'titte.unique'=>'This tittle is already existing',
+               'content.required'=>'Enter the content for this post',
+               'short_intro.required'=>'Enter the short intro for this article',
+               'category_id.required'=>'Enter the category for this title',
+               'category_id.exists'=>'Not existing category',
+               'author_id.required'=>'Enter the author for this article',
+               'author_id.exists'=>'Not exsiting author'
+        ];
+        $validator = Validator:: make($request->all(),[
+              'title'=>'required|unique:articles,title',
+              'content'=>'required',
+              'short_intro'=>'required',
+              'category_id'=>'required|exists:categories,id',
+              'author_id'=>'required|exists:authors,id'
+        ], $messages);
+        if ($validator->fails()) {
+            return response()->json([
+                'message'=>'Validation failed',
+                'errors'=> $validator->errors(),
+                ]);
+        } else {
+            $article = new Article;
+            $article->title =  $request->title;
+            $article->short_intro = $request->short_intro;
+            $article->content = $request->content;
+            $article->category_id = $request->category_id;
+            $article->author_id =  $request->author_id;
+            $article->save();
+            return response()->json(['message'=>'Create article successful']);
+        }
     }
 
     /**
@@ -56,8 +80,11 @@ class ArticleController extends Controller
      */
     public function show($slug)
     {
-        $article = Article::findBySlugOrFail($slug);
-        return response()->json($article);
+        $article = Article::findBySlug($slug);
+        if ($article) {
+            return response()->json($article);
+        }
+        return response()->json(['message'=>'no result for this key']);
     }
 
     /**
@@ -80,16 +107,41 @@ class ArticleController extends Controller
      */
     public function update(Request $request, $slug)
     {
-        //
-        $article =Article::findBySlugOrFail($slug);
+        $messages = [
+               'title.required'=>'Enter the tittle for this post',
+               'titte.unique'=>'This tittle is already existing',
+               'content.required'=>'Enter the content for this post',
+               'short_intro.required'=>'Enter the short intro for this article',
+               'category_id.required'=>'Enter the category for this title',
+               'category_id.exists'=>'Not existing category',
+               'author_id.required'=>'Enter the author for this article',
+               'author_id.exists'=>'Not exsiting author'
+        ];
+        $validator = Validator:: make($request->all(),[
+              'title'=>'required|unique:articles,title',
+              'content'=>'required',
+              'short_intro'=>'required',
+              'category_id'=>'required|exists:categories,id',
+              'author_id'=>'required|exists:authors,id'
+        ], $messages);
+        if ($validator->fails()) {
+            return response()->json([
+                'message'=>'Validation failed',
+                'errors'=> $validator->errors(),
+                ]);
+        } else {
+           $article =Article::findBySlugOrFail($slug);
 
-        $article->title =  $request->title;
-        $article->short_intro = $request->short_intro;
-        $article->content = $request->content;
-        $article->category_id = $request->category_id;
-        $article->author_id =  $request->author_id;
+            $article->title =  $request->title;
+            $article->short_intro = $request->short_intro;
+            $article->content = $request->content;
+            $article->category_id = $request->category_id;
+            $article->author_id =  $request->author_id;
 
-        $article->save();
+            $article->save();
+            return response()->json(['message'=>'Edit article successful']);
+        }
+        
     }
 
     /**
@@ -100,7 +152,13 @@ class ArticleController extends Controller
      */
     public function destroy($slug)
     {
-         $article =Article::findBySlugOrFail($slug);
-         $article->delete();
+
+         $article =Article::findBySlug($slug);
+         if ($article) {
+              $article->delete();
+              return response()->json(['message'=>'Delete successful']);
+         }
+        return response()->json(['message'=>'no result for this key']);
+
     }
 }
