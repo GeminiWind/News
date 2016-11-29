@@ -35,6 +35,18 @@ Route::get('/sports', function() {
   return view('frontend.pages.sports');
 })->name('sports');
 
+Route::get('/business', function() {
+  return view('frontend.pages.business');
+})->name('business');
+
+Route::get('/single', function() {
+  return view('frontend.pages.single');
+})->name('single');
+
+Route::get('/singlepage', function() {
+  return view('frontend.pages.singlepage');
+})->name('singlepage');
+
 Route::post('/register', 'ReaderController@regiter')->name('reader.register');
 Route::post('/login', 'ReaderController@login')->name('reader.login');
 
