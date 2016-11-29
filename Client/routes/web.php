@@ -17,23 +17,23 @@ Route::get('/', function () {
 
 Route::get('/index', function() {
   return view('frontend.pages.index');
-});
+})->name('index');
 
 Route::get('/about', function() {
   return view('frontend.pages.about');
-});
+})->name('about');
 
 Route::get('/tech', function() {
   return view('frontend.pages.tech');
-});
+})->name('tech');
 
 Route::get('/book', function() {
   return view('frontend.pages.book');
-});
+})->name('books');
 
 Route::get('/sports', function() {
   return view('frontend.pages.sports');
-});
+})->name('sports');
 
 Route::post('/register', 'ReaderController@regiter')->name('reader.register');
 Route::post('/login', 'ReaderController@login')->name('reader.login');
