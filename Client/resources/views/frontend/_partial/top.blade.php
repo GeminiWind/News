@@ -189,15 +189,18 @@
 <div class="menu-strip">
   <ul>
     <li><a href="{{route('index')}}">worldnews</a></li>
-    <li><a href="{{route('sports')}}">sports</a></li>
-    <li><a href="{{route('tech')}}">tech</a></li>
-    <li><a href="business.html">business</a></li>
-    <li><a href="movies.html">Movies</a></li>
-    <li><a href="movies.html">entertainment</a></li>
-    <li><a href="{{route('books')}}">Books</a></li>
-    <li><a href="movies.html">culture</a></li>
-    <li><a href="classifieds.html">classifieds</a></li>
-    <li><a href="blog.html">blogs</a></li>
+  <!--   <li><a href="{{route('sports')}}">sports</a></li>
+  <li><a href="{{route('tech')}}">tech</a></li>
+  <li><a href="business.html">business</a></li>
+  <li><a href="movies.html">Movies</a></li>
+  <li><a href="movies.html">entertainment</a></li>
+  <li><a href="{{route('books')}}">Books</a></li>
+  <li><a href="movies.html">culture</a></li>
+  <li><a href="classifieds.html">classifieds</a></li>
+  <li><a href="blog.html">blogs</a></li> -->
+  @foreach ($categories as $category)
+    <li><a href="#">{{$category->name}}</a></li>
+  @endforeach
   </ul>
 </div>
 <!-- script for menu -->
