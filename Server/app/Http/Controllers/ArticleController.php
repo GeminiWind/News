@@ -82,7 +82,7 @@ class ArticleController extends Controller
     {
         $article = Article::findBySlug($slug);
         if ($article) {
-            return response()->json($article);
+            return $article->toJson();
         }
         return response()->json(['message'=>'no result for this key']);
     }
@@ -160,5 +160,11 @@ class ArticleController extends Controller
          }
         return response()->json(['message'=>'no result for this key']);
 
+    }
+
+    public function author_info($id) {
+      $article= Article::findOrFail($id);
+      $author = $article->author;
+      return $author->toJson();
     }
 }

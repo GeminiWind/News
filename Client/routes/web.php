@@ -47,7 +47,10 @@ Route::get('/singlepage', function() {
   return view('frontend.pages.singlepage');
 })->name('singlepage');
 
-Route::post('/register', 'ReaderController@regiter')->name('reader.register');
+Route::post('/register', 'ReaderController@register')->name('reader.register');
 Route::post('/login', 'ReaderController@login')->name('reader.login');
-
-Route::get('/test/{slugArticle}','ArticleController@getArticleDetail');
+Route::get('/logout','ReaderController@logout')->name('reader.logout');
+Route::get('/articles/{slugArticle}','ArticleController@show')->name('article.show');
+Route::get('/categories/{slugCategory}','CategoryController@show')->name('category.show');
+Route::get('/authors/{slugAuthor}','AuthorController@show')->name('author.show');
+Route::post('/comment-on/{slugArticle}', 'CommentController@store')->name('comment.store');

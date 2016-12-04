@@ -51,7 +51,7 @@ class AuthorController extends Controller
     public function show($slug)
     {
         $author = Author::findBySlugOrFail($slug);
-        return response()->json($author);
+        return $author->toJson();
     }
 
     /**

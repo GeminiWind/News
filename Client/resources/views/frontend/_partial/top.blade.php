@@ -1,3 +1,37 @@
+<!-- Display failure of attemp login -->
+@if (session('statusLogin')=='error')
+  <script type="text/javascript">
+    swal({
+      title: "Error!",
+      text: "Invalid user. Try again!",
+      type: "error",
+      confirmButtonText: "OK"
+    });
+  </script>
+@endif
+
+<!-- Display status of registatiion  -->
+@if (session('statusRegistation')=='success')
+  <script type="text/javascript">
+    swal({
+      title: "Success!",
+      text: "Thanks for your registation!",
+      type: "success",
+      timer: 2000,
+      confirmButtonText: "OK"
+    });
+  </script>
+@elseif(session('statusRegistation')=='error')
+  <script type="text/javascript">
+    swal({
+      title: "Error!",
+      text: "Invalid input. Try again!",
+      type: "error",
+      confirmButtonText: "OK"
+    });
+  </script>
+@endif
+
 <div class="container">
 <div class="news-paper">
 <div class="header">
@@ -39,6 +73,9 @@
         |
         <li><a href="contact.html">Contact Us</a></li>
         |
+        @if(Session::has('access_token'))
+          <li><a href="{{ route('reader.logout') }}">Logout</a></li>
+        @else
         <li>
           <a id="modal_trigger" href="#modal" class="btn1">Login</a>
           <div id="modal" class="popupContainer" style="display:none;">
@@ -69,12 +106,13 @@
               </div>
               <!-- Username & Password Login form -->
               <div class="user_login">
-                <form>
+                <form action="{{ route('reader.login') }}" method="POST">
+                {!! csrf_field()!!}
                   <label>Email / Username</label>
-                  <input type="text" />
+                  <input type="text" name="name" />
                   <br />
                   <label>Password</label>
-                  <input type="password" />
+                  <input type="password" name="password" />
                   <br />
                   <div class="checkbox">
                     <input id="remember" type="checkbox" />
@@ -82,22 +120,23 @@
                   </div>
                   <div class="action_btns">
                     <div class="one_half"><a href="#" class="btn back_btn"><i class="fa fa-angle-double-left"></i> Back</a></div>
-                    <div class="one_half last"><a href="#" class="btn btn_red">Login</a></div>
+                    <div class="one_half last"><input type="submit" class="btn btn_red" value="Login"></div>
                   </div>
                 </form>
                 <a href="#" class="forgot_password">Forgot password?</a>
               </div>
               <!-- Register Form -->
               <div class="user_register">
-                <form>
+                <form method="POST" action="{{ route('reader.register') }}">
+                {!! csrf_field()!!}
                   <label>Full Name</label>
-                  <input type="text" />
+                  <input type="text" name="name" />
                   <br />
                   <label>Email Address</label>
-                  <input type="email" />
+                  <input type="email" name="email" />
                   <br />
                   <label>Password</label>
-                  <input type="password" />
+                  <input type="password" name="password" />
                   <br />
                   <div class="checkbox">
                     <input id="send_updates" type="checkbox" />
@@ -105,7 +144,7 @@
                   </div>
                   <div class="action_btns">
                     <div class="one_half"><a href="#" class="btn back_btn"><i class="fa fa-angle-double-left"></i> Back</a></div>
-                    <div class="one_half last"><a href="#" class="btn btn_red">Register</a></div>
+                    <div class="one_half last"><input type="submit" class="btn btn_red" value="Register"></div>
                   </div>
                 </form>
               </div>
@@ -142,6 +181,7 @@
             })
           </script>
         </li>
+        @endif
         |
         <li><a class="play-icon popup-with-zoom-anim" href="#small-dialog1">Subscribe</a></li>
       </ul>
@@ -190,7 +230,7 @@
   <ul>
     <li><a href="{{route('index')}}">Home</a></li>
   @foreach ($categories as $category)
-    <li><a href="#">{{$category->name}}</a></li>
+    <li><a href="{{ route('category.show',['slugCategory'=>$category->slug]) }}">{{$category->name}}</a></li>
   @endforeach
   </ul>
 </div>

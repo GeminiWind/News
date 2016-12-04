@@ -3,30 +3,31 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use GuzzleHttp\Client;
-use GuzzleHttp\Exception\GuzzleException;
+use App\ConnectServer as Server;
+use GuzzleHttp\Psr7;
+use GuzzleHttp\Exception\RequestException;
 
 class ArticleController extends Controller
 {
-   	public function getAllArticles() {
-		
-		$client = new Client([
-		    // Base URI is used with relative requests
-		    'base_uri' => 'http://aiwserver.com',
-		    // You can set any number of default request options.
-		    'timeout'  => 10.0,
-		]);
-		$response = $client->request('GET', 'api/articles');
-		echo $response->getBody();
-   	}
-   	public function getArticleDetail($slugArticle){
-   		$client = new Client([
-		    // Base URI is used with relative requests
-		    'base_uri' => 'http://aiwserver.com',
-		    // You can set any number of default request options.
-		    'timeout'  => 10.0,
-		]);
-		$response = $client->request('GET', 'api/articles/'.$slugArticle);
-		echo $response->getBody();
+	protected $client;
+	public function __construct(Server $server)
+	{
+		$this->client = $server->connect();
+	}
+   	public function show($slugArticle){
+		try {
+			//find basic info of artile 
+		  	$get_article_response = $this->client->request('GET', 'api/articles/'.$slugArticle);
+			$article=json_decode($get_article_response->getBody());
+			//find author and category
+			$get_author_response = $this->client->request('GET', 'api/articles/'.$article->id.'/author');
+			$author= json_decode($get_author_response->getBody());	
+			return view('frontend.pages.single',['article'=>$article,'author'=>$author]);
+		} catch (RequestException $e) {
+			echo Psr7\str($e->getRequest());
+			if ($e->hasResponse()) {
+			     echo Psr7\str($e->getResponse());
+			}
+		}
    	} 
 }

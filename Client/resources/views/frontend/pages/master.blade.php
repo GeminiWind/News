@@ -18,6 +18,8 @@
       function hideURLbar(){ window.scrollTo(0,1); }
   </script>
   <!--webfont-->
+   <script src="{{ url('frontend/js/sweetalert.min.js') }}"></script>
+   <link rel="stylesheet" type="text/css" href="{{ url('frontend/css/sweetalert.css') }}">
 </head>
 <body>
   @include('frontend._partial.top')

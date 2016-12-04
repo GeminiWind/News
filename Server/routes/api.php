@@ -16,7 +16,7 @@ use Illuminate\Http\Request;
 Route::get('/user', function (Request $request) {
     return $request->user();
 })->middleware('auth:api');
-
+Route::get('articles/{id}/author','ArticleController@author_info')->name('articles.author');
 Route::resource('articles', 'ArticleController');
 Route::resource('authors', 'AuthorController');
 Route::resource('categories', 'CategoryController');

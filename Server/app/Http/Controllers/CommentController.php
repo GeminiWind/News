@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 
 use App\Comment;
+use Validator;
 
 class CommentController extends Controller
 {
@@ -37,7 +38,7 @@ class CommentController extends Controller
     public function store(Request $request)
     {
         $messages = [
-               'content.required'=>'Enter the tittle for this post'
+               'content.required'=>'Enter the tittle for this post',
                'article_id.required'=>'Enter the category for this title',
                'article_id.exists'=>'Not existing category',
                'user_id.required'=>'Enter the author for this article',

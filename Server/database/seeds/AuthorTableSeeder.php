@@ -13,11 +13,11 @@ class AuthorTableSeeder extends Seeder
     public function run()
     {
         DB::table('authors')->insert([
-             array('name'=>'Atletico Madrid', 'slug'=>'atletico-madrid','created_at' => Carbon::now(),'updated_at' => Carbon::now()),
-             array('name'=>'ZACH SCHONBRUN', 'slug'=>'zach-schonbrun','created_at' => Carbon::now(),'updated_at' => Carbon::now()),
-             array('name'=>'Mark Savage', 'slug'=>'mark-savage','created_at' => Carbon::now(),'updated_at' => Carbon::now()),
-             array('name'=>'Leo Kelion', 'slug'=>'leo-kelion','created_at' => Carbon::now(),'updated_at' => Carbon::now()),     
-             array('name'=>'Padraig Belton', 'slug'=>'padraig-belton','created_at' => Carbon::now(),'updated_at' => Carbon::now())
+             array('name'=>'Atletico Madrid', 'slug'=>'atletico-madrid','img_url'=>'images/authors/default_author.png','created_at' => Carbon::now(),'updated_at' => Carbon::now()),
+             array('name'=>'ZACH SCHONBRUN', 'slug'=>'zach-schonbrun','img_url'=>'images/authors/default_author.png','created_at' => Carbon::now(),'updated_at' => Carbon::now()),
+             array('name'=>'Mark Savage', 'slug'=>'mark-savage','img_url'=>'images/authors/default_author.png','created_at' => Carbon::now(),'updated_at' => Carbon::now()),
+             array('name'=>'Leo Kelion', 'slug'=>'leo-kelion','img_url'=>'images/authors/default_author.png','created_at' => Carbon::now(),'updated_at' => Carbon::now()),     
+             array('name'=>'Padraig Belton', 'slug'=>'padraig-belton','img_url'=>'images/authors/default_author.png','created_at' => Carbon::now(),'updated_at' => Carbon::now())
         ]);
     }
 }

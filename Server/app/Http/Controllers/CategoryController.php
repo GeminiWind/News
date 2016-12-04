@@ -53,7 +53,7 @@ class CategoryController extends Controller
     public function show($slug)
     {
         $category = Category::findBySlugOrFail($slug);
-        return response()->json($category);
+        return $category->toJson();
     }
 
     /**
