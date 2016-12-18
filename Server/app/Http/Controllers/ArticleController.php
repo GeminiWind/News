@@ -167,4 +167,10 @@ class ArticleController extends Controller
       $author = $article->author;
       return $author->toJson();
     }
+
+    public function getTag($id) {
+      $article= Article::findOrFail($id);
+      $tags = $article->tags;
+      return $tags->toJson();
+    }
 }

@@ -215,11 +215,27 @@
 
       });
     </script>
-    <div class="search">
-      <form>
-        <input type="text" value="" onfocus="this.value = '';" onblur="if (this.value == '') {this.value = '';}"/>
-        <input type="submit" value="">
-      </form>
+    <div >
+     <!--  <form>
+       <input type="text" value="" onfocus="this.value = '';" onblur="if (this.value == '') {this.value = '';}"/>
+       <input type="submit" value="">
+     </form> -->
+       <form id="form-beer_v1" name="form-beer_v1">
+        <div class="typeahead__container">
+            <div class="typeahead__field">
+     
+                <span class="typeahead__query">
+                    <input class="js-typeahead-beer_v1" name="beer_v1[query]" type="search" placeholder="Search" autocomplete="off">
+                </span>
+                <span class="typeahead__button">
+                    <button type="submit">
+                        <i class="typeahead__search-icon"></i>
+                    </button>
+                </span>
+     
+            </div>
+        </div>
+    </form>
     </div>
     <div class="clearfix"></div>
   </div>

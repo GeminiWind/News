@@ -29,10 +29,7 @@
         </div>
     <div class="single">
        <h3>Tag</h3>
-         <a href="#" target="_blank" style="text-transform: uppercase; text-decoration: none; font-size: 0.7em">
-          <span class="circle"><i class="fa fa-rocket"></i></span>
-          <span class="title">Demo</span>
-        </a>
+   
      </div>
      <!-- <div class="best-review">
        <h4>Best Reader's Review</h4>

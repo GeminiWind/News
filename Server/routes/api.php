@@ -17,6 +17,9 @@ Route::get('/user', function (Request $request) {
     return $request->user();
 })->middleware('auth:api');
 Route::get('articles/{id}/author','ArticleController@author_info')->name('articles.author');
+Route::get('articles/{id}/tags','ArticleController@getTag')->name('articles.tag');
+//Seach 
+Route:: get('search/index' , ['as'=>'search.index','uses'=>'SearchController@index']);
 Route::resource('articles', 'ArticleController');
 Route::resource('authors', 'AuthorController');
 Route::resource('categories', 'CategoryController');

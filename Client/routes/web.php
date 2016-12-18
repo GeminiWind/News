@@ -46,7 +46,8 @@ Route::get('/single', function() {
 Route::get('/singlepage', function() {
   return view('frontend.pages.singlepage');
 })->name('singlepage');
-
+Route:: get('search/index' , ['as'=>'search.index','uses'=>'SearchController@index']);
+Route:: get('result-for/{type}/{name}', ['as' => 'search', 'uses' => 'SearchController@showResult']);
 Route::post('/register', 'ReaderController@register')->name('reader.register');
 Route::post('/login', 'ReaderController@login')->name('reader.login');
 Route::get('/logout','ReaderController@logout')->name('reader.logout');
@@ -54,3 +55,4 @@ Route::get('/articles/{slugArticle}','ArticleController@show')->name('article.sh
 Route::get('/categories/{slugCategory}','CategoryController@show')->name('category.show');
 Route::get('/authors/{slugAuthor}','AuthorController@show')->name('author.show');
 Route::post('/comment-on/{slugArticle}', 'CommentController@store')->name('comment.store');
+

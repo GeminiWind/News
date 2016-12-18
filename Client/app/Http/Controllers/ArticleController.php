@@ -21,8 +21,10 @@ class ArticleController extends Controller
 			$article=json_decode($get_article_response->getBody());
 			//find author and category
 			$get_author_response = $this->client->request('GET', 'api/articles/'.$article->id.'/author');
-			$author= json_decode($get_author_response->getBody());	
-			return view('frontend.pages.single',['article'=>$article,'author'=>$author]);
+			$author= json_decode($get_author_response->getBody());
+			$get_tag_response = $this->client->request('GET', 'api/articles/'.$article->id.'/tags');
+			$tags= json_decode($get_tag_response->getBody());	
+			return view('frontend.pages.single',['article'=>$article,'author'=>$author, 'tags'=> 'tags']);
 		} catch (RequestException $e) {
 			echo Psr7\str($e->getRequest());
 			if ($e->hasResponse()) {
