@@ -2,9 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
-
 use App\Article;
+use Illuminate\Http\Request;
 use Validator;
 
 class ArticleController extends Controller
@@ -17,6 +16,7 @@ class ArticleController extends Controller
     public function index()
     {
         $all_article = Article::all();
+
         return response()->json($all_article);
     }
 
@@ -27,7 +27,7 @@ class ArticleController extends Controller
      */
     public function create()
     {
-       //
+        //
     }
 
     /**
@@ -39,36 +39,36 @@ class ArticleController extends Controller
     public function store(Request $request)
     {
         $messages = [
-               'title.required'=>'Enter the tittle for this post',
-               'titte.unique'=>'This tittle is already existing',
-               'content.required'=>'Enter the content for this post',
-               'short_intro.required'=>'Enter the short intro for this article',
-               'category_id.required'=>'Enter the category for this title',
-               'category_id.exists'=>'Not existing category',
-               'author_id.required'=>'Enter the author for this article',
-               'author_id.exists'=>'Not exsiting author'
+            'title.required'       => 'Enter the tittle for this post',
+            'titte.unique'         => 'This tittle is already existing',
+            'content.required'     => 'Enter the content for this post',
+            'short_intro.required' => 'Enter the short intro for this article',
+            'category_id.required' => 'Enter the category for this title',
+            'category_id.exists'   => 'Not existing category',
+            'author_id.required'   => 'Enter the author for this article',
+            'author_id.exists'     => 'Not exsiting author',
         ];
-        $validator = Validator:: make($request->all(),[
-              'title'=>'required|unique:articles,title',
-              'content'=>'required',
-              'short_intro'=>'required',
-              'category_id'=>'required|exists:categories,id',
-              'author_id'=>'required|exists:authors,id'
+        $validator = Validator::make($request->all(), [
+            'title'       => 'required|unique:articles,title',
+            'content'     => 'required',
+            'short_intro' => 'required',
+            'category_id' => 'required|exists:categories,id',
+            'author_id'   => 'required|exists:authors,id',
         ], $messages);
         if ($validator->fails()) {
             return response()->json([
-                'message'=>'Validation failed',
-                'errors'=> $validator->errors(),
-                ]);
+                'message' => 'Validation failed',
+                'errors'  => $validator->errors(),
+            ]);
         } else {
-            $article = new Article;
-            $article->title =  $request->title;
+            $article              = new Article;
+            $article->title       = $request->title;
             $article->short_intro = $request->short_intro;
-            $article->content = $request->content;
+            $article->content     = $request->content;
             $article->category_id = $request->category_id;
-            $article->author_id =  $request->author_id;
+            $article->author_id   = $request->author_id;
             $article->save();
-            return response()->json(['message'=>'Create article successful']);
+            return response()->json(['message' => 'Create article successful']);
         }
     }
 
@@ -84,7 +84,8 @@ class ArticleController extends Controller
         if ($article) {
             return $article->toJson();
         }
-        return response()->json(['message'=>'no result for this key']);
+
+        return response()->json(['message' => 'no result for this key']);
     }
 
     /**
@@ -108,40 +109,41 @@ class ArticleController extends Controller
     public function update(Request $request, $slug)
     {
         $messages = [
-               'title.required'=>'Enter the tittle for this post',
-               'titte.unique'=>'This tittle is already existing',
-               'content.required'=>'Enter the content for this post',
-               'short_intro.required'=>'Enter the short intro for this article',
-               'category_id.required'=>'Enter the category for this title',
-               'category_id.exists'=>'Not existing category',
-               'author_id.required'=>'Enter the author for this article',
-               'author_id.exists'=>'Not exsiting author'
+            'title.required'       => 'Enter the tittle for this post',
+            'titte.unique'         => 'This tittle is already existing',
+            'content.required'     => 'Enter the content for this post',
+            'short_intro.required' => 'Enter the short intro for this article',
+            'category_id.required' => 'Enter the category for this title',
+            'category_id.exists'   => 'Not existing category',
+            'author_id.required'   => 'Enter the author for this article',
+            'author_id.exists'     => 'Not exsiting author',
         ];
-        $validator = Validator:: make($request->all(),[
-              'title'=>'required|unique:articles,title',
-              'content'=>'required',
-              'short_intro'=>'required',
-              'category_id'=>'required|exists:categories,id',
-              'author_id'=>'required|exists:authors,id'
+        $validator = Validator::make($request->all(), [
+            'title'       => 'required|unique:articles,title',
+            'content'     => 'required',
+            'short_intro' => 'required',
+            'category_id' => 'required|exists:categories,id',
+            'author_id'   => 'required|exists:authors,id',
         ], $messages);
         if ($validator->fails()) {
             return response()->json([
-                'message'=>'Validation failed',
-                'errors'=> $validator->errors(),
-                ]);
+                'message' => 'Validation failed',
+                'errors'  => $validator->errors(),
+            ]);
         } else {
-           $article =Article::findBySlugOrFail($slug);
+            $article = Article::findBySlugOrFail($slug);
 
-            $article->title =  $request->title;
+            $article->title       = $request->title;
             $article->short_intro = $request->short_intro;
-            $article->content = $request->content;
+            $article->content     = $request->content;
             $article->category_id = $request->category_id;
-            $article->author_id =  $request->author_id;
+            $article->author_id   = $request->author_id;
 
             $article->save();
-            return response()->json(['message'=>'Edit article successful']);
+
+            return response()->json(['message' => 'Edit article successful']);
         }
-        
+
     }
 
     /**
@@ -153,24 +155,45 @@ class ArticleController extends Controller
     public function destroy($slug)
     {
 
-         $article =Article::findBySlug($slug);
-         if ($article) {
-              $article->delete();
-              return response()->json(['message'=>'Delete successful']);
-         }
-        return response()->json(['message'=>'no result for this key']);
+        $article = Article::findBySlug($slug);
+        if ($article) {
+            $article->delete();
+            return response()->json(['message' => 'Delete successful']);
+        }
+
+        return response()->json(['message' => 'no result for this key']);
 
     }
 
-    public function author_info($id) {
-      $article= Article::findOrFail($id);
-      $author = $article->author;
-      return $author->toJson();
+    public function getAuthor($slug)
+    {
+        $article = Article::findBySlug($slug);
+        $author  = $article->author;
+
+        return $author->toJson();
     }
 
-    public function getTag($id) {
-      $article= Article::findOrFail($id);
-      $tags = $article->tags;
-      return $tags->toJson();
+    public function getTags($slug)
+    {
+        $article = Article::findBySlug($slug);
+        $tags    = $article->tags;
+
+        return $tags->toJson();
+    }
+
+    public function getCategory($slug)
+    {
+        $article  = Article::findBySlug($slug);
+        $category = $article->category;
+
+        return $category->toJson();
+    }
+
+    public function getComments($slug)
+    {
+        $article = Article::findBySlug($slug);
+        $comments = $article->comments;
+
+        return response()->json($comments);
     }
 }

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Tag;
 
 class TagController extends Controller
 {
@@ -43,9 +44,10 @@ class TagController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show($slug)
     {
-        //
+        $tag = Tag::findBySlugOrFail($slug);
+        return response()->json($tag);
     }
 
     /**
@@ -80,5 +82,15 @@ class TagController extends Controller
     public function destroy($id)
     {
         //
+    }
+
+    public function getArticles($slug)
+    {
+        $tag = Tag::findBySlugOrFail($slug);
+        if ( $tag )
+        {
+            $articles = $tag->articles;
+            return response()->json($articles);
+        }
     }
 }

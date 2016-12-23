@@ -1,42 +1,23 @@
-@extends('frontend.pages.master')
+@extends('frontend.layout.desktop')
 @section('content')
 
 <div class="main-content">
   <div class="col-md-9 total-news">
-    <div class="technology">
+    @foreach (array_chunk($articles, 3) as $chunks)
+       <div class="technology">
       <div class="tech-main">
-        <div class="col-md-4 tech">
-          <a href="singlepage.html"><img src="{{url('frontend/images/tech1.jpg')}}" alt="" /></a>
-          <a class="power" href="singlepage.html">You can still get into trouble for online posts: Digital law experts</a>
+      @foreach ($chunks as $chunk)
+         <div class="col-md-4 tech">
+          <a  href="{{ route('article.show', $chunk->slug) }}"><img src="{{config('myserver.server').$chunk->url_image}}" alt="" width="250px" height="150px" /></a>
+          <a class="power" href="{{ route('article.show', $chunk->slug) }}">{{ str_limit($chunk->title, $limit = 100, $end = "...") }}</a>
         </div>
-        <div class="col-md-4 tech">
-          <a href="singlepage.html"><img src="{{url('frontend/images/tech2.jpg')}}" alt="" /></a>
-          <a class="power" href="singlepage.html">Indian online buyers among world's unhappiest: UN</a>
-        </div>
-        <div class="col-md-4 tech">
-          <a href="singlepage.html"><img src="{{url('frontend/images/tech3.jpg')}}" alt="" /></a>
-          <a class="power" href="singlepage.html">10 mistakes that will kill your startup</a>
-        </div>
+      @endforeach
+       
         <div class="clearfix"></div>
       </div>
     </div>
-    <div class="technology">
-      <div class="tech-main">
-        <div class="col-md-4 tech">
-          <a href="singlepage.html"><img src="{{url('frontend/images/tech4.jpg')}}" alt="" /></a>
-          <a class="power" href="singlepage.html">You can still get into trouble for online posts: Digital law experts</a>
-        </div>
-        <div class="col-md-4 tech">
-          <a href="singlepage.html"><img src="{{url('frontend/images/tech5.jpg')}}" alt="" /></a>
-          <a class="power" href="singlepage.html">Indian online buyers among world's unhappiest: UN</a>
-        </div>
-        <div class="col-md-4 tech">
-          <a href="singlepage.html"><img src="{{url('frontend/images/tech6.jpg')}}" alt="" /></a>
-          <a class="power" href="singlepage.html">10 mistakes that will kill your startup</a>
-        </div>
-        <div class="clearfix"></div>
-      </div>
-    </div>
+    @endforeach
+
     <div class="posts">
       <div class="left-posts">
         <div class="tech-news">

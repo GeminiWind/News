@@ -90,4 +90,14 @@ class AuthorController extends Controller
         $author = Author::findBySlugOrFail($slug);
         $author->delete();
     }
+
+    public function getArticles($slug)
+    {
+         $author = Author::findBySlugOrFail($slug);
+         if ( $author )
+         {
+            $articles = $author->articles;
+            return response()->json($articles);
+         }
+    }
 }

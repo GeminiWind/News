@@ -2,9 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
-
 use App\Category;
+use Illuminate\Http\Request;
 
 class CategoryController extends Controller
 {
@@ -93,5 +92,13 @@ class CategoryController extends Controller
     {
         $category = Category::findBySlugOrFail($slug);
         $category->delete();
+    }
+
+    public function getArticles($slug)
+    {
+        $category = Category::findBySlugOrFail($slug);
+        $articles = $category->articles;
+
+        return $articles->toJson();
     }
 }

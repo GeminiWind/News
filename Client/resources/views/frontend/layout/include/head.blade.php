@@ -1,7 +1,6 @@
-<!DOCTYPE html>
-<html>
 <head>
   <title>The News</title>
+  <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
   <link href="{{url('frontend/css/bootstrap.css')}}" rel='stylesheet' type='text/css' />
   <!-- Custom Theme files -->
   <link href="{{url('frontend/css/style.css')}}" rel="stylesheet" type="text/css" media="all" />
@@ -25,11 +24,3 @@
    <link rel="stylesheet" type="text/css" href="{{ url('frontend/css/search.css') }}">
    <script type="text/javascript" src="{{url('frontend/js/search.js')}}"></script>
 </head>
-<body>
-  @include('frontend._partial.top')
-  @yield('content')
-  @include('frontend._partial.sidebar')
-  @include('frontend._partial.bottom')
-  @yield('extra-script')
-</body>
-</html>

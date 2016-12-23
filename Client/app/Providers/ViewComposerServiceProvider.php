@@ -24,7 +24,7 @@ class ViewComposerServiceProvider extends ServiceProvider
         );*/
 
         // Using Closure based composers...
-        View::composer('frontend._partial.top', function ($view) {
+        View::composer(['frontend.layout.include.navigation', 'frontend.layout.include.footer'], function ($view) {
            $client = new Client([
             // Base URI is used with relative requests
             'base_uri' => 'http://aiwserver.com',

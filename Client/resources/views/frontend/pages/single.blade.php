@@ -1,4 +1,4 @@
-@extends('frontend.pages.master')
+@extends('frontend.layout.desktop')
 @section('content')
 @if (session('statusComment')=='success')
   <script type="text/javascript">
@@ -18,18 +18,22 @@
         <div class="grid-header">
           <h3>{{$article->title}} . </h3>
           <ul>
-            <li><span>Post By {{$author->name}} on {{\Carbon\Carbon::parse($article->created_at)->format('jS F, Y g:i a')}}</span></li>
+            <li><span>Post By <a href="{{ route('author.show', $author->slug) }}"> {{$author->name}}</a> on {{\Carbon\Carbon::parse($article->created_at)->format('jS F, Y g:i a')}}</span></li>
             <li><a href="#">5 comments</a></li>
           </ul>
         </div>
         <div class="singlepage">
-          <a href="#"><img src="http://aiwserver.com/{{$article->url_image}}" /></a>
+          <a href="#"><img src="{{config('myserver.server').$article->url_image}}" /></a>
           {!!$article->content!!}
           <div class="clearfix"> </div>
         </div>
     <div class="single">
-       <h3>Tag</h3>
-   
+       <h3>Tags:</h3>
+    @foreach ($tags as $tag)
+        <a href="{{ route('tag.show', $tag->slug) }}"> <i class="fa fa-tag">{{ $tag->name }}</i> </a>
+    @endforeach
+ 
+
      </div>
      <!-- <div class="best-review">
        <h4>Best Reader's Review</h4>
@@ -44,15 +48,33 @@
       <div class="clearfix"> </div>
     </div>
     <ul class="comment-list">
-      <h5 class="post-author_head">Written by <a href="#" title="Posts by admin" rel="author">{{$author->name}}</a></h5>
+      <h5 class="post-author_head">Written by <a href="{{ route('author.show', $author->slug) }}" title="Posts by admin" rel="author">{{$author->name}}</a></h5>
       <li>
-        <img src="http://aiwserver.com/{{$author->img_url}}" class="img-responsive" alt="">
+        <img src="{{ config('myserver.server').$author->img_url}}" class="img-responsive" alt="">
         <div class="desc">
-          <p>View all posts by: <a href="#" title="Posts by admin" rel="author">{{$author->name}}</a></p>
+          <p>View all posts by: <a href="{{ route('author.show', $author->slug) }}" title="Posts by admin" rel="author">{{$author->name}}</a></p>
         </div>
         <div class="clearfix"></div>
       </li>
     </ul>
+     <div class="clearfix"> </div>
+     <hr>
+    <div class="comment-area">
+    <h3>Comment()</h3>
+     <ul class="comment-list">
+     @foreach ($comments as $comment)
+       <li style="padding: 20px">
+        <img src="{{ config('myserver.server').'/images/user/default.png'}}" class="img-responsive" alt="">
+        <div class="desc">
+          <p>{!! $comment->user_id !!}</p>
+          <p>{!! $comment->content !!}</p>
+          <p>{{$comment->created_at}}</p>
+        </div>
+        <div class="clearfix"></div>
+      </li>
+     @endforeach
+    </ul>
+    </div>
     <div class="content-form">
       <h3>Leave a comment</h3>
       @if(Session::has('access_token'))

@@ -54,5 +54,6 @@ Route::get('/logout','ReaderController@logout')->name('reader.logout');
 Route::get('/articles/{slugArticle}','ArticleController@show')->name('article.show');
 Route::get('/categories/{slugCategory}','CategoryController@show')->name('category.show');
 Route::get('/authors/{slugAuthor}','AuthorController@show')->name('author.show');
+Route::get('/tags/{slugTag}','TagController@show')->name('tag.show');
 Route::post('/comment-on/{slugArticle}', 'CommentController@store')->name('comment.store');
 

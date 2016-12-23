@@ -46,4 +46,10 @@ class Article extends Model
   public function category(){
     return $this->belongsTo('App\Category');
   }
+
+  public function getUrlImageAttribute($value)
+  {
+    $path = config('path.cover_image').$value;
+    return $path;
+  }
 }

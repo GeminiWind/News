@@ -1,4 +1,4 @@
-@extends('frontend.pages.master')
+@extends('frontend.layout.desktop')
 @section('content')
 
 <div class="blog-main-content">

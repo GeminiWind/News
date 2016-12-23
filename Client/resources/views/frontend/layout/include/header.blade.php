@@ -216,48 +216,14 @@
       });
     </script>
     <div >
-     <!--  <form>
+      <form>
        <input type="text" value="" onfocus="this.value = '';" onblur="if (this.value == '') {this.value = '';}"/>
        <input type="submit" value="">
-     </form> -->
-       <form id="form-beer_v1" name="form-beer_v1">
-        <div class="typeahead__container">
-            <div class="typeahead__field">
-     
-                <span class="typeahead__query">
-                    <input class="js-typeahead-beer_v1" name="beer_v1[query]" type="search" placeholder="Search" autocomplete="off">
-                </span>
-                <span class="typeahead__button">
-                    <button type="submit">
-                        <i class="typeahead__search-icon"></i>
-                    </button>
-                </span>
-     
-            </div>
-        </div>
-    </form>
+     </form>
     </div>
     <div class="clearfix"></div>
   </div>
   <div class="clearfix"></div>
 </div>
-<span class="menu"></span>
-<div class="menu-strip">
-  <ul>
-    <li><a href="{{route('index')}}">Home</a></li>
-  @foreach ($categories as $category)
-    <li><a href="{{ route('category.show',['slugCategory'=>$category->slug]) }}">{{$category->name}}</a></li>
-  @endforeach
-  </ul>
-</div>
-<!-- script for menu -->
-<script>
-  $( "span.menu" ).click(function() {
-    $( ".menu-strip" ).slideToggle( "slow", function() {
-      // Animation complete.
-    });
-  });
-</script>
-<!-- script for menu -->
 <div class="clearfix"></div>
 

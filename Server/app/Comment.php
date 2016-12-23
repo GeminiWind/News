@@ -3,6 +3,9 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use App\User;
+use App\Article;
+use Carbon\Carbon;
 
 class Comment extends Model
 {
@@ -21,4 +24,14 @@ class Comment extends Model
   public function user(){
     return $this->belongsTo('App\User');
   }
+
+  public function getUserIdAttribute($value) {
+    $user = User::find($value);
+    return $user->name;
+  }
+
+  public function getCreatedAtAttribute($value) {
+    return Carbon::parse($value)->diffForHumans();
+  }
+
 }

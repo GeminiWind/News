@@ -16,13 +16,16 @@ class AuthorController extends Controller
 	}
    	public function show($slugAuthor){
 		try {
-		  	$response = $this->client->request('GET', 'api/authors/'.$slugAuthor);
-			echo $response->getBody();
+		  	$author_response = $this->client->request('GET', 'api/authors/'.$slugAuthor);
+			$author = json_decode($author_response->getBody());
+			$articles_response  = $this->client->request('GET', 'api/authors/'.$slugAuthor. '/articles');
+			 $articles          = json_decode($articles_response->getBody());
+			 return view('frontend.pages.author',['author' => $author, 'articles' => $articles]);
 		} catch (RequestException $e) {
 			echo Psr7\str($e->getRequest());
 			if ($e->hasResponse()) {
 			     echo Psr7\str($e->getResponse());
 			}
 		}
-   	} 
+   	}
 }

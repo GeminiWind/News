@@ -31,4 +31,10 @@ class Author extends Model
   public function articles() {
     return $this->hasMany('App\Article');
   }
+
+  public function getImgUrlAttribute($value)
+  {
+    $path = config('path.author_image').$value;
+    return $path;
+  }
 }

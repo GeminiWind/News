@@ -1,4 +1,4 @@
-@extends('frontend.pages.master')
+@extends('frontend.layout.desktop')
 @section('content')
 <div class="main-content">
   <div class="col-md-9 total-news">
