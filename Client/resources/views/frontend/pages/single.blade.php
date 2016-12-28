@@ -92,5 +92,8 @@
   </div>
 </div>
 @endsection
+@section('right-sidebar')
+  @include('frontend.layout.include.single_sidebar',['related_articles' => $related_articles])
+@endsection
 @section('extra-script')
 @endsection

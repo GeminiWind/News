@@ -271,6 +271,9 @@
   </div>
 </div>
 @endsection
+@section('right-sidebar')
+  @include('frontend.layout.include.sidebar')
+@endsection
 @section('extra-script')
   <script src="{{url('frontend/js/responsiveslides.min.js')}}"></script>
   <script type="text/javascript" src="{{url('frontend/js/jquery.flexisel.js')}}"></script>

@@ -31,6 +31,9 @@
   </div>
 </div>
 @endsection
+@section('right-sidebar')
+  @include('frontend.layout.include.sidebar')
+@endsection
 @section('extra-script')
   <link rel="stylesheet" href="{{url('frontend/css/flexslider.css')}}" type="text/css" media="screen" />
   <script type="text/javascript" src="{{url('frontend/js/jquery.flexisel.js')}}"></script>

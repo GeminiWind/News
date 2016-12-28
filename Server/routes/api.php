@@ -21,6 +21,7 @@ Route::get('articles/{slug}/author', 'ArticleController@getAuthor')->name('artic
 Route::get('articles/{slug}/tags', 'ArticleController@getTags')->name('articles.tag');
 Route::get('articles/{slug}/category', 'ArticleController@getCategory')->name('articles.category');
 Route::get('articles/{slug}/comments', 'ArticleController@getComments')->name('articles.comment');
+Route::get('articles/{slug}/realted-articles', 'ArticleController@getRelatedArticles')->name('articles.related-article');
 /*Get articles by category*/
 Route::get('categories/{slug}/articles', 'CategoryController@getArticles')->name('category.article');
 /*Get artilces by tags*/

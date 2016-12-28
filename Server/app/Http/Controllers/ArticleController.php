@@ -191,9 +191,19 @@ class ArticleController extends Controller
 
     public function getComments($slug)
     {
-        $article = Article::findBySlug($slug);
+        $article  = Article::findBySlug($slug);
         $comments = $article->comments;
 
         return response()->json($comments);
+    }
+
+    public function getRelatedArticles($slug)
+    {
+        $article          = Article::findBySlug($slug);
+        $related_articles = Article::where('id', '!=', $article->id)->where('category_id', $article->category_id)->get();
+        $same_athor       = Article::where('id', '!=', $article->id)->where('author_id', $article->author_id)->get();
+        $related_articles->merge($same_athor);
+
+        return response()->json($related_articles);
     }
 }

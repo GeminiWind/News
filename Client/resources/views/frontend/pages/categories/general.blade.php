@@ -88,9 +88,6 @@
             <div class="course_demo1">
               <ul id="flexiselDemo1">
                 <li>
-                  <a href="single.html"><img src="{{url('frontend/images/g1.jpg')}}" alt="" /></a>
-                </li>
-                <li>
                   <a href="single.html">  <img src="{{url('frontend/images/g2.jpg')}}" alt="" /></a>
                 </li>
                 <li>
@@ -201,6 +198,9 @@
     </div>
   </div>
 </div>
+@endsection
+@section('right-sidebar')
+  @include('frontend.layout.include.sidebar')
 @endsection
 @section('extra-script')
   <link rel="stylesheet" href="{{url('frontend/css/flexslider.css')}}" type="text/css" media="screen" />
