@@ -25,5 +25,23 @@ class SearchController extends Controller
 			     echo Psr7\str($e->getResponse());
 			}
 		}
+   	}
+
+   	public function showResult($type, $name)
+   	{
+
+        if ($type == "Author") {
+            $author_slug = str_slug($name, $separator = "-");
+            return redirect()->route("author.show", ['slugAuthor' => $author_slug]);
+        } else if ($type == "Category") {
+            $category_slug = str_slug($name, $separator = "-");
+            return redirect()->route('category.show', ['slugCategory' => $category_slug]);
+        } else if ($type == "Tag") {
+            $tag_slug = str_slug($name, $separator = "-");
+            return redirect()->route('tag.show', ['slugTag' => $tag_slug]);
+        } else if ($type == "Article") {
+            $article_slug = str_slug($name, $separator = "-");
+            return redirect()->route('article.show', ['slugArticle' => $article_slug]);
+        }
    	} 
 }

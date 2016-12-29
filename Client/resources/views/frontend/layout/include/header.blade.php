@@ -216,10 +216,23 @@
       });
     </script>
     <div >
-      <form>
-       <input type="text" value="" onfocus="this.value = '';" onblur="if (this.value == '') {this.value = '';}"/>
-       <input type="submit" value="">
-     </form>
+<form id="form-beer_v1" name="form-beer_v1">
+    <div class="typeahead__container">
+        <div class="typeahead__field">
+ 
+            <span class="typeahead__query">
+                <input class="js-typeahead-beer_v1" name="beer_v1[query]" placeholder="Search" autocomplete="off" type="search">
+            </span>
+            <span class="typeahead__button">
+                <button type="submit">
+                    <i class="typeahead__search-icon"></i>
+                </button>
+            </span>
+ 
+        </div>
+    </div>
+</form>
+<script type="text/javascript" src="{{url('frontend/js/search.js')}}"></script>
     </div>
     <div class="clearfix"></div>
   </div>
