@@ -22,7 +22,7 @@ class APIAuthController extends Controller
 
     	User::create($input);
 
-        return response()->json(['result'=>true]);
+        return response()->json(['result'=>true],201);
 
     }
 
@@ -36,11 +36,11 @@ class APIAuthController extends Controller
 
     	if (!$token = JWTAuth::attempt($input)) {
 
-            return response()->json(['result' => 'wrong email or password.']);
+            return response()->json(['result' => 'wrong email or password.'],401);
 
         }
 
-        	return response()->json(['result' => $token]);
+        	return response()->json(['result' => $token],200);
 
     }
 
@@ -54,7 +54,7 @@ class APIAuthController extends Controller
 
     	$user = JWTAuth::toUser($input['token']);
 
-        return response()->json(['result' => $user]);
+        return response()->json(['result' => $user],200);
 
     }
 }

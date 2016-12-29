@@ -2,9 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
-
 use App\Comment;
+use Illuminate\Http\Request;
 use Validator;
 
 class CommentController extends Controller
@@ -16,7 +15,8 @@ class CommentController extends Controller
      */
     public function index()
     {
-        //
+        $comments = Comment::all();
+        return response()->json($comments, 200);
     }
 
     /**
@@ -38,29 +38,29 @@ class CommentController extends Controller
     public function store(Request $request)
     {
         $messages = [
-               'content.required'=>'Enter the tittle for this post',
-               'article_id.required'=>'Enter the category for this title',
-               'article_id.exists'=>'Not existing category',
-               'user_id.required'=>'Enter the author for this article',
-               'user_id.exists'=>'Not exsiting user'
+            'content.required'    => 'Enter the tittle for this post',
+            'article_id.required' => 'Enter the category for this title',
+            'article_id.exists'   => 'Not existing category',
+            'user_id.required'    => 'Enter the author for this article',
+            'user_id.exists'      => 'Not exsiting user',
         ];
-        $validator = Validator:: make($request->all(),[
-              'content'=>'required',
-              'article_id'=>'required|exists:articles,id',
-              'user_id'=>'required|exists:users,id'
+        $validator = Validator::make($request->all(), [
+            'content'    => 'required',
+            'article_id' => 'required|exists:articles,id',
+            'user_id'    => 'required|exists:users,id',
         ], $messages);
         if ($validator->fails()) {
             return response()->json([
-                'message'=>'Validation failed',
-                'errors'=> $validator->errors(),
-                ]);
+                'message' => 'Validation failed',
+                'errors'  => $validator->errors(),
+            ], 400);
         } else {
-            $comment = new Comment;
-            $comment->content = $request->content;
+            $comment             = new Comment;
+            $comment->content    = $request->content;
             $comment->article_id = $request->article_id;
-            $comment->user_id = $request->user_id;
+            $comment->user_id    = $request->user_id;
             $comment->save();
-            return response()->json(['message'=>'Comment successful']);
+            return response()->json(['message' => 'Comment successful'], 200);
         }
     }
 
@@ -73,7 +73,11 @@ class CommentController extends Controller
     public function show($id)
     {
         $comment = Comment::findOrFail($id);
-        return response()->json($comment);
+        if ($comment) {
+            return response()->json($comment, 200);
+        }
+        return response()->json(['message' => 'Not Found'], 404);
+
     }
 
     /**
@@ -84,7 +88,7 @@ class CommentController extends Controller
      */
     public function edit($id)
     {
-        
+
     }
 
     /**
@@ -96,9 +100,9 @@ class CommentController extends Controller
      */
     public function update(Request $request, $id)
     {
-         $comment = Comment::findOrFail($id);
-         $comment->content = $request->content;
-         $comment->save();
+        $comment          = Comment::findOrFail($id);
+        $comment->content = $request->content;
+        $comment->save();
     }
 
     /**
@@ -109,7 +113,11 @@ class CommentController extends Controller
      */
     public function destroy($id)
     {
-         $comment = Comment::findOrFail($id);
-         $comment->delete();
+        $comment = Comment::findOrFail($id);
+        if ($comment) {
+            $comment->delete();
+            return response()->json(['message' => 'Delete OK'], 200);
+        }
+        return response()->json(['message' => 'Not Found'], 404);
     }
 }

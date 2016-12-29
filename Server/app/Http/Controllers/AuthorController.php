@@ -2,9 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
-
 use App\Author;
+use Illuminate\Http\Request;
 
 class AuthorController extends Controller
 {
@@ -16,7 +15,7 @@ class AuthorController extends Controller
     public function index()
     {
         $all_author = Author::all();
-        return response()->json($all_author);
+        return response()->json($all_author, 200);
     }
 
     /**
@@ -37,9 +36,10 @@ class AuthorController extends Controller
      */
     public function store(Request $request)
     {
-        $author = new Author;
-        $author->name= $request->name;
+        $author       = new Author;
+        $author->name = $request->name;
         $author->save();
+        return response()->json(['message' => 'Created OK'], 201);
     }
 
     /**
@@ -51,7 +51,11 @@ class AuthorController extends Controller
     public function show($slug)
     {
         $author = Author::findBySlugOrFail($slug);
-        return $author->toJson();
+        if ($author) {
+            return response()->json($author, 200);
+        }
+        return response()->json(['message' => 'Not found'], 404);
+
     }
 
     /**
@@ -74,7 +78,7 @@ class AuthorController extends Controller
      */
     public function update(Request $request, $slug)
     {
-        $author = Author::findBySlugOrFail($slug);
+        $author       = Author::findBySlugOrFail($slug);
         $author->name = $request->name;
         $author->save();
     }
@@ -88,16 +92,21 @@ class AuthorController extends Controller
     public function destroy($slug)
     {
         $author = Author::findBySlugOrFail($slug);
-        $author->delete();
+        if ($author) {
+            $author->delete();
+            return response()->json(['message' => 'Delete OK'], 200);
+        }
+        return response()->json(['message' => 'Not found'], 404);
+
     }
 
     public function getArticles($slug)
     {
-         $author = Author::findBySlugOrFail($slug);
-         if ( $author )
-         {
+        $author = Author::findBySlugOrFail($slug);
+        if ($author) {
             $articles = $author->articles;
-            return response()->json($articles);
-         }
+            return response()->json($articles, 200);
+        }
+        return response()->json(['message' => 'Not found'], 404);
     }
 }

@@ -2,8 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
 use App\Tag;
+use Illuminate\Http\Request;
+use Validator;
 
 class TagController extends Controller
 {
@@ -14,7 +15,8 @@ class TagController extends Controller
      */
     public function index()
     {
-        //
+        $tags = Tag::all();
+        return response()->json($tags, 200);
     }
 
     /**
@@ -35,7 +37,24 @@ class TagController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $rules = [
+            'name' => 'required|unique:tags,name',
+        ];
+        $messages = [
+            'name.required' => 'Required name for tag',
+            'name.unique'   => 'Existing tag',
+        ];
+        $validator = Validator::make($request->all(), $rules, $messages);
+        if ($validator->fails()) {
+            return response()->json([
+                'message' => 'Validation failed',
+                'errors'  => $validator->errors(),
+            ], 400);
+        } else {
+            Tag::create($request->all());
+            return response()->json(['message' => 'Create tag successful'], 201);
+        }
+
     }
 
     /**
@@ -47,7 +66,11 @@ class TagController extends Controller
     public function show($slug)
     {
         $tag = Tag::findBySlugOrFail($slug);
-        return response()->json($tag);
+        if ($tag) {
+            return response()->json($tag, 200);
+        }
+        return response()->json(['message' => 'Not found'], 404);
+
     }
 
     /**
@@ -68,9 +91,30 @@ class TagController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, $slug)
     {
-        //
+        $tag = Tag::findBySlugOrFail($slug);
+        if ($tag) {
+            $rules = [
+                'name' => 'required|unique:tags,name,' . $tag->id,
+            ];
+            $messages = [
+                'name.required' => 'Required name for tag',
+                'name.unique'   => 'Existing tag',
+            ];
+            $validator = Validator::make($request->all(), $rules, $messages);
+            if ($validator->fails()) {
+                return response()->json([
+                    'message' => 'Validation failed',
+                    'errors'  => $validator->errors(),
+                ], 400);
+            } else {
+                $tag->update($request->all());
+                return response()->json(['message' => 'Update tag successful'], 200);
+            }
+        }
+         return response()->json(['message' => 'Not found'], 404);
+
     }
 
     /**
@@ -79,18 +123,23 @@ class TagController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy($slug)
     {
-        //
+        $tag = Tag::findBySlugOrFail($slug);
+        if ($tag) {
+            $tag->delete();
+            return response()->json(['message' => 'Delete tag ok'], 200);
+        }
+        return response()->json(['message' => 'Not found'], 404);
     }
 
     public function getArticles($slug)
     {
         $tag = Tag::findBySlugOrFail($slug);
-        if ( $tag )
-        {
+        if ($tag) {
             $articles = $tag->articles;
-            return response()->json($articles);
+            return response()->json($articles,200);
         }
+        return response()->json(['message' => 'Not found'], 404);
     }
 }

@@ -17,7 +17,7 @@ class ArticleController extends Controller
     {
         $all_article = Article::all();
 
-        return response()->json($all_article);
+        return response()->json($all_article,200);
     }
 
     /**
@@ -59,7 +59,7 @@ class ArticleController extends Controller
             return response()->json([
                 'message' => 'Validation failed',
                 'errors'  => $validator->errors(),
-            ]);
+            ], 400);
         } else {
             $article              = new Article;
             $article->title       = $request->title;
@@ -68,7 +68,7 @@ class ArticleController extends Controller
             $article->category_id = $request->category_id;
             $article->author_id   = $request->author_id;
             $article->save();
-            return response()->json(['message' => 'Create article successful']);
+            return response()->json(['message' => 'Create article successful'], 201);
         }
     }
 
@@ -82,10 +82,10 @@ class ArticleController extends Controller
     {
         $article = Article::findBySlug($slug);
         if ($article) {
-            return $article->toJson();
+            return response()->json($article, 200);
         }
 
-        return response()->json(['message' => 'no result for this key']);
+        return response()->json(['message' => 'Not Found'], 404);
     }
 
     /**
@@ -129,7 +129,7 @@ class ArticleController extends Controller
             return response()->json([
                 'message' => 'Validation failed',
                 'errors'  => $validator->errors(),
-            ]);
+            ], 400);
         } else {
             $article = Article::findBySlugOrFail($slug);
 
@@ -141,7 +141,7 @@ class ArticleController extends Controller
 
             $article->save();
 
-            return response()->json(['message' => 'Edit article successful']);
+            return response()->json(['message' => 'Edit article successful'], 200);
         }
 
     }
@@ -158,52 +158,71 @@ class ArticleController extends Controller
         $article = Article::findBySlug($slug);
         if ($article) {
             $article->delete();
-            return response()->json(['message' => 'Delete successful']);
+            return response()->json(['message' => 'Delete successful'], 200);
         }
 
-        return response()->json(['message' => 'no result for this key']);
+        return response()->json(['message' => 'Not found'], 404);
 
     }
 
     public function getAuthor($slug)
     {
         $article = Article::findBySlug($slug);
-        $author  = $article->author;
+        if ($article) {
+            $author = $article->author;
 
-        return $author->toJson();
+            return response()->json($author, 200);
+        }
+        return response()->json(['message' => 'Not found'], 404);
+
     }
 
     public function getTags($slug)
     {
         $article = Article::findBySlug($slug);
-        $tags    = $article->tags;
+        if ($article) {
+            $tags = $article->tags;
 
-        return $tags->toJson();
+            return response()->json($tags, 200);
+        }
+        return response()->json(['message' => 'Not found'], 404);
+
     }
 
     public function getCategory($slug)
     {
-        $article  = Article::findBySlug($slug);
-        $category = $article->category;
+        $article = Article::findBySlug($slug);
+        if ($article) {
+            $category = $article->category;
 
-        return $category->toJson();
+            return response()->json($category, 200);
+        }
+
+        return response()->json(['message' => 'Not found'], 404);
     }
 
     public function getComments($slug)
     {
-        $article  = Article::findBySlug($slug);
-        $comments = $article->comments;
+        $article = Article::findBySlug($slug);
+        if ($article) {
+            $comments = $article->comments;
 
-        return response()->json($comments);
+            return response()->json($comments, 200);
+        }
+
+        return response()->json(['message' => 'Not found'], 404);
     }
 
     public function getRelatedArticles($slug)
     {
-        $article          = Article::findBySlug($slug);
-        $related_articles = Article::where('id', '!=', $article->id)->where('category_id', $article->category_id)->get();
-        $same_athor       = Article::where('id', '!=', $article->id)->where('author_id', $article->author_id)->get();
-        $related_articles->merge($same_athor);
+        $article = Article::findBySlug($slug);
+        if ($article) {
+            $related_articles = Article::where('id', '!=', $article->id)->where('category_id', $article->category_id)->get();
+            $same_athor       = Article::where('id', '!=', $article->id)->where('author_id', $article->author_id)->get();
+            $related_articles->merge($same_athor);
 
-        return response()->json($related_articles);
+            return response()->json($related_articles, 200);
+        }
+        return response()->json(['message' => 'Not found'], 404);
     }
 }

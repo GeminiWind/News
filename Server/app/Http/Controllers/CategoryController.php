@@ -15,7 +15,7 @@ class CategoryController extends Controller
     public function index()
     {
         $all_category = Category::all();
-        return response()->json($all_category);
+        return response()->json($all_category, 200);
     }
 
     /**
@@ -36,11 +36,23 @@ class CategoryController extends Controller
      */
     public function store(Request $request)
     {
-        $category = new Category;
-
-        $category->name = $request->name;
-
-        $category->save();
+        $rules = [
+            'name' => 'required|unique:categories,name',
+        ];
+        $messages = [
+            'name.required' => 'Required name for categories',
+            'name.unique'   => 'Existing category',
+        ];
+        $validator = Validator::make($request->all(), $rules, $messages);
+        if ($validator->fails()) {
+            return response()->json([
+                'message' => 'Validation failed',
+                'errors'  => $validator->errors(),
+            ], 400);
+        } else {
+            Category::create($request->all());
+            return response()->json(['message' => 'Create cate successful'], 201);
+        }
     }
 
     /**
@@ -52,7 +64,11 @@ class CategoryController extends Controller
     public function show($slug)
     {
         $category = Category::findBySlugOrFail($slug);
-        return $category->toJson();
+        if ($category) {
+            return response()->json($category, 200);
+        }
+        return response()->json(['message' => 'Not Found'], 404);
+
     }
 
     /**
@@ -76,10 +92,27 @@ class CategoryController extends Controller
     public function update(Request $request, $slug)
     {
         $category = Category::findBySlugOrFail($slug);
+        if ($category) {
+            $rules = [
+                'name' => 'required|unique:categories,name,' . $category->id,
+            ];
+            $messages = [
+                'name.required' => 'Required name for categories',
+                'name.unique'   => 'Existing category',
+            ];
+            $validator = Validator::make($request->all(), $rules, $messages);
+            if ($validator->fails()) {
+                return response()->json([
+                    'message' => 'Validation failed',
+                    'errors'  => $validator->errors(),
+                ], 400);
+            } else {
+                $category->update($request->all());
+                return response()->json(['message' => 'Update cate successful'], 200);
+            }
+        }
+        return response()->json(['message' => 'Not Found'], 404);
 
-        $category->name = $request->name;
-
-        $category->save();
     }
 
     /**
@@ -90,15 +123,24 @@ class CategoryController extends Controller
      */
     public function destroy($slug)
     {
-        $category = Category::findBySlugOrFail($slug);
-        $category->delete();
+        $category = Category::findBySlug($slug);
+        if ($category) {
+            $category->delete();
+            return response()->json(['message' => 'Delete OK'], 200);
+        }
+
+        return response()->json(['message' => 'Not Found'], 404);
+
     }
 
     public function getArticles($slug)
     {
         $category = Category::findBySlugOrFail($slug);
-        $articles = $category->articles;
+        if ($category) {
+            $articles = $category->articles;
+            return response()->json($articles, 200);
 
-        return $articles->toJson();
+        }
+        return response()->json(['message' => 'Not Found'], 404);
     }
 }
