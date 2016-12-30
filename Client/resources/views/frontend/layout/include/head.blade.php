@@ -20,6 +20,6 @@
    <script src="{{ url('frontend/js/sweetalert.min.js') }}"></script>
    <link rel="stylesheet" type="text/css" href="{{ url('frontend/css/sweetalert.css') }}">
    <link rel="stylesheet" type="text/css" href="{{ url('frontend/css/jquery.typeahead.css') }}">
-   <script type="text/javascript" src="{{url('frontend/js/jquery.typeahead.js')}}"></script>
+   <script src="{{url('frontend/js/jquery.typeahead.js')}}"></script>
    <link rel="stylesheet" type="text/css" href="{{ url('frontend/css/search.css') }}">
 </head>

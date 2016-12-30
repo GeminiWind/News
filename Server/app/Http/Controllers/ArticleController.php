@@ -82,6 +82,9 @@ class ArticleController extends Controller
     {
         $article = Article::findBySlug($slug);
         if ($article) {
+            $view = $article->view_count + 1;
+            $article->view_count = $view;
+            $article->save();
             return response()->json($article, 200);
         }
 
@@ -224,5 +227,10 @@ class ArticleController extends Controller
             return response()->json($related_articles, 200);
         }
         return response()->json(['message' => 'Not found'], 404);
+    }
+
+    public function popular(){
+        $populars = Article::orderBy('view_count','desc')->take(5)->get();
+        return response()->json($populars, 200);
     }
 }

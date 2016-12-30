@@ -16,13 +16,18 @@ class TagController extends Controller
 
     public function show($slugTag)
     {
-        //get basic info of specified tag
-        $tag_response = $this->client->request('GET', 'api/tags/' . $slugTag);
-        $tag          = json_decode($tag_response->getBody());
-        //get artcles inside specifed tag
-        $articles_response = $this->client->request('GET', 'api/tags/' . $slugTag . '/articles');
-        $articles           = json_decode($articles_response->getBody());
+        try {
+            //get basic info of specified tag
+            $tag_response = $this->client->request('GET', 'api/tags/' . $slugTag);
+            $tag          = json_decode($tag_response->getBody());
+            //get artcles inside specifed tag
+            $articles_response = $this->client->request('GET', 'api/tags/' . $slugTag . '/articles');
+            $articles          = json_decode($articles_response->getBody());
 
-        return view('frontend.pages.tag', ['tag' => $tag, 'articles' => $articles]);
+            return view('frontend.pages.tag', ['tag' => $tag, 'articles' => $articles]);
+        } catch (RequestException $e) {
+            abort(404);
+        }
+
     }
 }

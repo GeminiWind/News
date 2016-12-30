@@ -46,10 +46,7 @@ class ArticleController extends Controller
                 'related_articles' => $related_articles
                 ]);
         } catch (RequestException $e) {
-            echo Psr7\str($e->getRequest());
-            if ($e->hasResponse()) {
-                echo Psr7\str($e->getResponse());
-            }
+            abort(404);
         }
     }
 }

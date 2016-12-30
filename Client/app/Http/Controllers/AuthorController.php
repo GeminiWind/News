@@ -22,10 +22,7 @@ class AuthorController extends Controller
 			 $articles          = json_decode($articles_response->getBody());
 			 return view('frontend.pages.author',['author' => $author, 'articles' => $articles]);
 		} catch (RequestException $e) {
-			echo Psr7\str($e->getRequest());
-			if ($e->hasResponse()) {
-			     echo Psr7\str($e->getResponse());
+			 abort(404);
 			}
 		}
-   	}
 }

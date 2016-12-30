@@ -8,14 +8,11 @@
             </a>
         </li>
         @for ($i = 0; $i < count($categories); $i++)
-        @if ($i <8)
         <li>
             <a href="{{ route('category.show',['slugCategory'=>$categories[$i]->slug]) }}">
                 {{$categories[$i]->name}}
             </a>
         </li>
-        @else
-        @endif
 @endfor
     </ul>
 </div>

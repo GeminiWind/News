@@ -18,6 +18,7 @@ Route::get('/user', function (Request $request) {
 })->middleware('auth:api');
 /*Get realted information of article: author, tag, category, comment */
 Route::get('articles/{slug}/author', 'ArticleController@getAuthor')->name('articles.author');
+Route::get('articles/popular', 'ArticleController@popular')->name('articles.popular');
 Route::get('articles/{slug}/tags', 'ArticleController@getTags')->name('articles.tag');
 Route::get('articles/{slug}/category', 'ArticleController@getCategory')->name('articles.category');
 Route::get('articles/{slug}/comments', 'ArticleController@getComments')->name('articles.comment');
