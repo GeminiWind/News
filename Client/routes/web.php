@@ -48,7 +48,9 @@ Route::get('/singlepage', function() {
 })->name('singlepage');
 Route:: get('search/index' , ['as'=>'search.index','uses'=>'SearchController@index']);
 Route:: get('result-for/{type}/{name}', ['as' => 'search', 'uses' => 'SearchController@showResult']);
+Route::get('/register','Auth\RegisterController@showRegistrationForm')->name('reader.registerForm');
 Route::post('/register', 'ReaderController@register')->name('reader.register');
+Route::get('/login', 'Auth\LoginController@showLoginForm')->name('reader.loginForm');
 Route::post('/login', 'ReaderController@login')->name('reader.login');
 Route::get('/logout','ReaderController@logout')->name('reader.logout');
 Route::get('/articles/{slugArticle}','ArticleController@show')->name('article.show');

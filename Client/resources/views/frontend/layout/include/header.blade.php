@@ -44,24 +44,21 @@
     </div>
   </div>
   <div class="social-icons">
-    <li><a href="#"><i class="twitter"></i></a></li>
-    <li><a href="#"><i class="facebook"></i></a></li>
-    <li><a href="#"><i class="rss"></i></a></li>
+   
+    
+     @if(Session::has('access_token'))
+          <li><a href="{{ route('reader.logout') }}"><i class="rss"></i>Log Out</a></li>
+          @else
+           <li><a href="{{ route('reader.loginForm') }}"><i class="twiter"></i>Log In</a></li>
+           <li><a href="{{ route('reader.registerForm') }}"><i class="facebook"></i>Register</a></li>
+        @endif
+   
     <li>
       <div class="facebook">
         <div id="fb-root"></div>
         <div id="fb-root"></div>
       </div>
     </li>
-    <script>
-      (function(d, s, id) {
-        var js, fjs = d.getElementsByTagName(s)[0];
-        if (d.getElementById(id)) return;
-        js = d.createElement(s); js.id = id;
-        js.src = "//connect.facebook.net/en_US/sdk.js#xfbml=1&version=v2.0";
-        fjs.parentNode.insertBefore(js, fjs);
-        }(document, 'script', 'facebook-jssdk'));
-    </script>
   </div>
   <div class="clearfix"></div>
   <div class="header-right">

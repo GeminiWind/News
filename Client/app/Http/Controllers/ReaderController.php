@@ -44,7 +44,7 @@ class ReaderController extends Controller
 			$user= $this->getCurrentUser($result->result);
 			Session::put('user_id', $user->result->id);
 			Session::put('access_token', $result->result);
-			return back()->with('statusLogin','success');
+			return redirect('/')->with('statusLogin','success');
 		}
 	}
 
